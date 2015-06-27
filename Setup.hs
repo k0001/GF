@@ -266,7 +266,7 @@ langsPGF = langsLang `except` ["Ara","Hin","Ron","Tha"]
 -- languages for which Compatibility exists (to be extended)
 langsCompat = langsLang `only` ["Cat","Eng","Fin","Fre","Ita","Lav","Spa","Swe"]
 
-gfc bi modes summary files = 
+gfc bi modes summary files =
     parallel_ [gfcn bi mode summary files | mode<-modes]
 gfcn bi mode summary files = do
   let dir = getRGLBuildDir (lbi bi) mode
@@ -362,7 +362,7 @@ unlexer abstr ls =
 -- | Runs the gf executable in compile mode with the given arguments.
 run_gfc :: Info -> [String] -> IO ()
 run_gfc bi args =
-    do let args' = numJobs (bf bi)++["-batch","-gf-lib-path="++rgl_src_dir]
+    do let args' = ["-batch","-gf-lib-path="++rgl_src_dir]
                    ++ filter (not . null) args
            gf = default_gf (lbi bi)
        execute gf args'
