@@ -58,7 +58,7 @@ concrete2haskell opts gr cenv absname cnc modinfo =
 
     rhss = map (either snd (snd.snd)) defs
     defs = sortBy (compare `on` either (const Nothing) (Just . fst)) .
-           concatMap (toHaskell gId gr absname cenv) . 
+           concatMap (toHaskell gId gr absname cenv) .
            M.toList $
            jments modinfo
 
@@ -194,7 +194,7 @@ records ts = S.unions (map recs ts)
 
 
 coerce env ty t =
-  case (ty,t) of 
+  case (ty,t) of
     (_,Let d t) -> Let d (coerce (extend env d) ty t)
     (_,FV ts) -> FV (map (coerce env ty) ts)
     (Table ti tv,V _ ts) -> V ti (map (coerce env tv) ts)
@@ -267,7 +267,7 @@ convert' va gId vs gr = ppT
         PFloat x -> Lit (show x)
         PT _ p -> ppP p
         PAs x p -> AsP x (ppP p)
-        
+
     token s = single (c "TK" `Ap` lit s)
 
     alts t' vs = single (c "TP" `Ap` List (map alt vs) `Ap` ppT0 t')
@@ -277,6 +277,7 @@ convert' va gId vs gr = ppT
         pre (K s) = [lit s]
         pre (Strs ts) = concatMap pre ts
         pre (EPatt p) = pat p
+        pre Empty = []
         pre t = error $ "pre "++show t
 
         pat (PString s) = [lit s]
